@@ -1,5 +1,14 @@
-function App() {
-    return <h1>Hello React</h1>;
-}
+import React from 'react';
+import { Footer } from './Footer';
+import { Menu } from './Menu';
+import { Header } from './Header';
 
-export default App;
+export function App() {
+    return (
+        <div className='container'>
+            <Header />
+            <Menu />
+            <Footer />
+        </div>
+    );
+}
