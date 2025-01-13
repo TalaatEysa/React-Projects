@@ -1,4 +1,4 @@
-export function Stats() {
+export default function Stats() {
     return (
         <footer className='stats'>
             👜
