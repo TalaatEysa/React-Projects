@@ -22,14 +22,23 @@ export default function App() {
             )
         );
     }
+    function handleClearList() {
+        if (!items.length) return;
+        const confirmed = window.confirm(
+            'Are you sure you want to delete all?'
+        );
+        if (confirmed) setItems([]);
+    }
+
     return (
         <div className='app'>
             <Logo />
             <Form onAddItems={handleAddItems} />
             <PackingList
                 items={items}
-                onDeleteItem={ handleDeleteItem }
-                onToggleItem={ handleToggleItem }
+                onDeleteItem={handleDeleteItem}
+                onToggleItem={handleToggleItem}
+                onClearList={handleClearList}
             />
             <Stats items={items} />
         </div>
