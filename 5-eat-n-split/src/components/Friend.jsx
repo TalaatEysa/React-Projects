@@ -20,7 +20,9 @@ export default function Friend({ friend, onSelection, selectedFriend }) {
                     {friend.name} owes you {Math.abs(friend.balance)}$
                 </p>
             )}
-            <Button onClick={() => onSelection(friend)}>{isSelected ? 'Close' : 'Select'}</Button>
+            <Button onClick={() => onSelection(friend)}>
+                {isSelected ? 'Close' : 'Select'}
+            </Button>
         </li>
     );
 }
