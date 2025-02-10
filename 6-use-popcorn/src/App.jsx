@@ -7,6 +7,7 @@ import MovieList from './components/Main/ListBox/MovieList';
 import Box from './components/Main/Box';
 import WatchedMoviesList from './components/Main/WatchedBox/WatchedMoviesList';
 import WatchedSummary from './components/Main/WatchedBox/WatchedSummary';
+import MovieDetails from './components/Main/ListBox/MovieDetails';
 
 export const tempMovieData = [
     {
@@ -58,37 +59,48 @@ export default function App() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [query, setQuery] = useState('interstellar');
-    useEffect(function () {
-        async function fetchMovies() {
-            try {
-                setIsLoading(true);
-                setError('');
-                const res = await fetch(
-                    `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`
-                );
-                if (!res.ok)
-                    throw new Error(
-                        'Something went wrong while fetching movies.'
-                    );
+    const [selecteId, setSelectedId] = useState(null);
 
-                const data = await res.json();
-                if (data.Response === 'False')
-                    throw new Error('Movie not found.');
-                setMovies(data.Search);
-            } catch (err) {
-                console.error(err.message);
-                setError(err.message);
-            } finally {
-                setIsLoading(false);
+    function handleSelectMovie(id) {
+        setSelectedId((selecteId) => (id === selecteId ? null : id));
+    }
+    function handleCloseMovie() {
+        setSelectedId(null);
+    }
+    useEffect(
+        function () {
+            async function fetchMovies() {
+                try {
+                    setIsLoading(true);
+                    setError('');
+                    const res = await fetch(
+                        `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+                    );
+                    if (!res.ok)
+                        throw new Error(
+                            'Something went wrong while fetching movies.'
+                        );
+
+                    const data = await res.json();
+                    if (data.Response === 'False')
+                        throw new Error('Movie not found.');
+                    setMovies(data.Search);
+                } catch (err) {
+                    console.error(err.message);
+                    setError(err.message);
+                } finally {
+                    setIsLoading(false);
+                }
             }
-        }
-        if (query.length < 3) {
-            setMovies([]);
-            setError('');
-            return;
-        }
-        fetchMovies();
-    }, [query]);
+            if (query.length < 3) {
+                setMovies([]);
+                setError('');
+                return;
+            }
+            fetchMovies();
+        },
+        [query]
+    );
 
     return (
         <>
@@ -102,12 +114,26 @@ export default function App() {
             <Main>
                 <Box>
                     {isLoading && <Loader />}
-                    {!isLoading && !error && <MovieList movies={movies} />}
+                    {!isLoading && !error && (
+                        <MovieList
+                            movies={movies}
+                            onSelectMovie={handleSelectMovie}
+                        />
+                    )}
                     {error && <ErrorMessage message={error} />}
                 </Box>
                 <Box>
-                    <WatchedSummary watched={watched} />
-                    <WatchedMoviesList watched={watched} />
+                    {selecteId ? (
+                        <MovieDetails
+                            selectedId={selecteId}
+                            onCloseMovie={handleCloseMovie}
+                        />
+                    ) : (
+                        <>
+                            <WatchedSummary watched={watched} />
+                            <WatchedMoviesList watched={watched} />
+                        </>
+                    )}
                 </Box>
             </Main>
         </>
