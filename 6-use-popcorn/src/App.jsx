@@ -56,16 +56,31 @@ export default function App() {
     const [watched, setWatched] = useState([]);
     const [movies, setMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
     const query = 'interstellar';
     useEffect(function () {
         async function fetchMovies() {
-            setIsLoading(true);
-            const res = await fetch(
-                `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`
-            );
-            const data = await res.json();
-            setMovies(data.Search);
-            setIsLoading(false);
+            try {
+                setIsLoading(true);
+                const res = await fetch(
+                    `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+                );
+                console.log(res);
+                if (!res.ok)
+                    throw new Error(
+                        'Something went wrong while fetching movies.'
+                    );
+
+                const data = await res.json();
+                if (data.Response === 'False')
+                    throw new Error('Movie not found.');
+                setMovies(data.Search);
+            } catch (err) {
+                console.error(err.message);
+                setError(err.message);
+            } finally {
+                setIsLoading(false);
+            }
         }
         fetchMovies();
     }, []);
@@ -78,7 +93,9 @@ export default function App() {
             </NavBar>
             <Main>
                 <Box>
-                    {isLoading ? <Loader /> : <MovieList movies={movies} />}
+                    {isLoading && <Loader />}
+                    {!isLoading && !error && <MovieList movies={movies} />}
+                    {error && <ErrorMessage message={error} />}
                 </Box>
                 <Box>
                     <WatchedSummary watched={watched} />
@@ -91,4 +108,11 @@ export default function App() {
 
 function Loader() {
     return <p className='loader'>Loading...</p>;
+}
+function ErrorMessage({ message }) {
+    return (
+        <p className='error'>
+            <span>⛔</span> {message}
+        </p>
+    );
 }
