@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Main from './components/Main/Main';
 import NavBar from './components/NavBar/NavBar';
 import Search from './components/NavBar/Search';
@@ -48,13 +48,25 @@ export const tempWatchedData = [
         userRating: 9
     }
 ];
-
+const KEY = 'b1bc54bd';
 export const average = (arr) =>
     arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 export default function App() {
-    const [watched, setWatched] = useState(tempWatchedData);
-    const [movies, setMovies] = useState(tempMovieData);
+    const [watched, setWatched] = useState([]);
+    const [movies, setMovies] = useState([]);
+    const query = 'interstellar';
+    useEffect(function () {
+        async function fetchMovies() {
+            const res = await fetch(
+                `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+            );
+            const data = await res.json();
+            setMovies(data.Search);
+        }
+        fetchMovies();
+    }, []);
+
     return (
         <>
             <NavBar>
