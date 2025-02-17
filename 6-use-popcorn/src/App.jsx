@@ -18,7 +18,7 @@ export default function App() {
     const [movies, setMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
-    const [query, setQuery] = useState('interstellar');
+    const [query, setQuery] = useState('');
     const [selecteId, setSelectedId] = useState(null);
 
     function handleSelectMovie(id) {
@@ -45,7 +45,8 @@ export default function App() {
                     setIsLoading(true);
                     setError('');
                     const res = await fetch(
-                        `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`,{signal: controller.signal}
+                        `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+                        { signal: controller.signal }
                     );
                     if (!res.ok)
                         throw new Error(
@@ -58,9 +59,9 @@ export default function App() {
                     setMovies(data.Search);
                     setError('');
                 } catch (err) {
-                    console.error(err.message);
                     if (err.name !== 'AbortError') {
                         setError(err.message);
+                        console.log(err.message);
                     }
                 } finally {
                     setIsLoading(false);
@@ -71,10 +72,11 @@ export default function App() {
                 setError('');
                 return;
             }
+            handleCloseMovie();
             fetchMovies();
             return function () {
                 controller.abort();
-            }
+            };
         },
         [query]
     );
@@ -110,7 +112,10 @@ export default function App() {
                     ) : (
                         <>
                             <WatchedSummary watched={watched} />
-                            <WatchedMoviesList watched={watched} onRemoveFromWatched={handleRemoveFromWatched} />
+                            <WatchedMoviesList
+                                watched={watched}
+                                onRemoveFromWatched={handleRemoveFromWatched}
+                            />
                         </>
                     )}
                 </Box>
