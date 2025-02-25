@@ -10,7 +10,8 @@ import Question from './components/Question';
 const initialState = {
     questions: [],
     //status: 'loading', 'error', 'ready', 'active', 'finished'
-    status: 'loading'
+    status: 'loading',
+    index: 0
 };
 function reducer(state, action) {
     switch (action.type) {
@@ -37,7 +38,10 @@ function reducer(state, action) {
     }
 }
 function App() {
-    const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
+    const [{ questions, status, index }, dispatch] = useReducer(
+        reducer,
+        initialState
+    );
 
     const numQuestions = questions.length;
 
@@ -59,7 +63,11 @@ function App() {
                         dispatch={dispatch}
                     />
                 )}
-                {status === 'active' && <Question />}
+                {status === 'active' && (
+                    <Question
+                        question={questions[index]}
+                    />
+                )}
             </Main>
         </div>
     );
