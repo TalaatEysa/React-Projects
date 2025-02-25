@@ -8,6 +8,7 @@ import StartScreen from './components/StartScreen';
 import Question from './components/Question';
 import NextButton from './components/NextButton';
 import Progress from './components/Progress';
+import FinishScreen from './components/FinishScreen';
 
 const initialState = {
     questions: [],
@@ -15,7 +16,8 @@ const initialState = {
     status: 'loading',
     index: 0,
     answer: null,
-    points: 0
+    points: 0,
+    highScore: 0
 };
 function reducer(state, action) {
     switch (action.type) {
@@ -45,7 +47,7 @@ function reducer(state, action) {
                 ...state,
                 answer: action.payload,
                 points:
-                    state.payload === question.correctOption
+                    action.payload === question.correctOption
                         ? state.points + question.points
                         : state.points
             };
@@ -57,15 +59,22 @@ function reducer(state, action) {
                 answer: null
             };
 
+        case 'finish':
+            return {
+                ...state,
+                status: 'finished',
+                highScore:
+                    state.points > state.highScore
+                        ? state.points
+                        : state.highScore
+            };
         default:
             throw new Error('Unknown action');
     }
 }
 function App() {
-    const [{ questions, status, index, answer,points }, dispatch] = useReducer(
-        reducer,
-        initialState
-    );
+    const [{ questions, status, index, answer, points, highScore }, dispatch] =
+        useReducer(reducer, initialState);
 
     const numQuestions = questions.length;
     const maxPossiblePoints = questions.reduce(
@@ -97,7 +106,7 @@ function App() {
                             index={index}
                             numQuestions={numQuestions}
                             points={points}
-                            maxPossiblePoints={ maxPossiblePoints }
+                            maxPossiblePoints={maxPossiblePoints}
                             answer={answer}
                         />
                         <Question
@@ -108,8 +117,17 @@ function App() {
                         <NextButton
                             dispatch={dispatch}
                             answer={answer}
+                            index={index}
+                            numQuestions={numQuestions}
                         />
                     </>
+                )}
+                {status === 'finished' && (
+                    <FinishScreen
+                        points={points}
+                        maxPossiblePoints={ maxPossiblePoints }
+                        highScore={highScore}
+                    />
                 )}
             </Main>
         </div>
