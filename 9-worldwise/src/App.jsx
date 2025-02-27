@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Product from './pages/Product';
 import Pricing from './pages/Pricing';
 import Homepage from './pages/Homepage';
@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import CityList from './components/CityList';
 import CountryList from './components/CountryList';
 import City from './components/City';
+import Form from './components/Form';
 
 const BASE_URL = 'http://localhost:8000';
 export default function App() {
@@ -54,12 +55,7 @@ export default function App() {
                 >
                     <Route
                         index
-                        element={
-                            <CityList
-                                cities={cities}
-                                isLoading={isLoading}
-                            />
-                        }
+                        element={<Navigate to='cities' replace />}
                     />
                     <Route
                         path='cities'
@@ -72,7 +68,7 @@ export default function App() {
                     />
                     <Route
                         path='cities/:id'
-                        element={<City/>}
+                        element={<City />}
                     />
                     <Route
                         path='countries'
@@ -85,7 +81,7 @@ export default function App() {
                     />
                     <Route
                         path='form'
-                        element={<p>Form</p>}
+                        element={<Form />}
                     />
                 </Route>
                 <Route
