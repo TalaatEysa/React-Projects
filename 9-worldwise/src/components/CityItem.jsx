@@ -22,7 +22,7 @@ export default function CityItem({ city }) {
             <span className={styles.emoji}>
                 <img
                     src={emoji}
-                    alt='❌'
+                    alt={emoji}
                     width='30'
                 />
             </span>

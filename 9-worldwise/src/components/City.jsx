@@ -35,7 +35,7 @@ function City() {
                     <span>
                         <img
                             src={emoji}
-                            alt='❌'
+                            alt={emoji}
                             width='30'
                         />
                     </span>
