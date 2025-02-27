@@ -11,7 +11,7 @@ export default function App() {
         <BrowserRouter>
             <Routes>
                 <Route
-                    path='/'
+                    index
                     element={<Homepage />}
                 />
                 <Route
@@ -29,7 +29,24 @@ export default function App() {
                 <Route
                     path='app'
                     element={<AppLayout />}
-                />
+                >
+                    <Route
+                        index
+                        element={<p>list of things</p>}
+                    />
+                    <Route
+                        path='cities'
+                        element={<p>Cities</p>}
+                    />
+                    <Route
+                        path='countries'
+                        element={<p>Countries</p>}
+                    />
+                    <Route
+                        path='form'
+                        element={<p>Form</p>}
+                    />
+                </Route>
                 <Route
                     path='*'
                     element={<PageNotFound />}
