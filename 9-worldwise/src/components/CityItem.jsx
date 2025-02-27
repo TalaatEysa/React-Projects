@@ -8,20 +8,23 @@ const formatDate = (date) =>
         year: 'numeric'
     }).format(new Date(date));
 export default function CityItem({ city }) {
-    const { emoji, cityName, date,id } = city;
+    const { emoji, cityName, date, id, position } = city;
     return (
-            <Link className={styles.cityItem} to={`${id}`} >
-                <span className={styles.emoji}>
-                    <img
-                        src={emoji}
-                        alt='❌'
-                        width='30'
-                    />
-                </span>
+        <Link
+            className={styles.cityItem}
+            to={`${id}?lat=${position.lat}&lng=${position.lng}`}
+        >
+            <span className={styles.emoji}>
+                <img
+                    src={emoji}
+                    alt='❌'
+                    width='30'
+                />
+            </span>
 
-                <h3 className={styles.name}>{cityName}</h3>
-                <time className={styles.date}>{formatDate(date)}</time>
-                <button className={styles.deleteBtn}>&times;</button>
-            </Link>
+            <h3 className={styles.name}>{cityName}</h3>
+            <time className={styles.date}>{formatDate(date)}</time>
+            <button className={styles.deleteBtn}>&times;</button>
+        </Link>
     );
 }
