@@ -1,4 +1,3 @@
-import { useSearchParams } from 'react-router-dom';
 import {
     MapContainer,
     TileLayer,
@@ -9,7 +8,7 @@ import {
 } from 'react-leaflet';
 import styles from './Map.module.css';
 import { useEffect, useState } from 'react';
-import { useCities } from '../context/CitiesContext';
+import { useCities } from '../contexts/CitiesContext';
 import { useNavigate } from 'react-router-dom';
 import { useGeolocation } from '../hooks/useGeolocation';
 import Button from './Button';

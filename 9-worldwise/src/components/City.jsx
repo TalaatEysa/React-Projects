@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import styles from './City.module.css';
-import { useCities } from '../context/CitiesContext';
+import { useCities } from '../contexts/CitiesContext';
 import Spinner from './Spinner';
 import Backbutton from './Backbutton';
 
@@ -16,7 +16,7 @@ const formatDate = (date) =>
 function City() {
     const { id } = useParams();
     const { getCity, currentCity, isLoading } = useCities();
-    
+
     useEffect(
         function () {
             getCity(id);
