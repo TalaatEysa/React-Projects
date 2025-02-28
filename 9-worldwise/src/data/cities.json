@@ -35,30 +35,6 @@
         "lng": 13.376933665713324
       },
       "id": "98443197"
-    },
-    {
-      "id": "a611",
-      "cityName": "Borough of Thurrock",
-      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
-      "emoji": "🇬🇧",
-      "date": "2025-02-28T01:10:35.475Z",
-      "notes": "cvvc",
-      "position": {
-        "lat": "51.46907847342635",
-        "lng": "0.308909701645872"
-      }
-    },
-    {
-      "id": "533c",
-      "cityName": "Juncalas",
-      "country": "France",
-      "emoji": "🇫🇷",
-      "date": "2025-02-28T01:17:50.686Z",
-      "notes": "  bb",
-      "position": {
-        "lat": "43.05604502981287",
-        "lng": "0.0019975122562820857"
-      }
     }
   ]
 }
