@@ -7,6 +7,7 @@ import {
     formatDate,
 } from "../../utils/helpers";
 import { useEffect } from "react";
+import UpdateOrder from "./UpdateOrder";
 // Test ID: IIDSAT
 
 function Order() {
@@ -90,6 +91,7 @@ function Order() {
                     {formatCurrency(orderPrice + priorityPrice)}
                 </p>
             </div>
+            {!priority && <UpdateOrder order={order} />}
         </div>
     );
 }
