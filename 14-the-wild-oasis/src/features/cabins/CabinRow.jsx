@@ -3,6 +3,8 @@ import { formatCurrency } from '../../utils/helpers';
 import { useState } from 'react';
 import CreateCabinForm from './CreateCabinForm';
 import { useDeleteCabin } from './useDeleteCabin';
+import { HiPencil, HiSquare2Stack, HiTrash } from 'react-icons/hi2';
+import { useCreateCabin } from './useCreateCabin';
 
 const TableRow = styled.div`
     display: grid;
@@ -45,15 +47,27 @@ const Discount = styled.div`
 
 export default function CabinRow({ cabin }) {
     const [showForm, setShowForm] = useState(false);
+    const { isCreating, createCabin } = useCreateCabin();
     const {
         id: cabinId,
         name,
         maxCapacity,
         regularPrice,
         discount,
-        image
+        image,
+        description
     } = cabin;
     const { isDeleting, deleteCabin } = useDeleteCabin();
+    function handleDuplicate() {
+        createCabin({
+            name: `Copy of ${name}`,
+            maxCapacity,
+            regularPrice,
+            discount,
+            image,
+            description
+        });
+    }
     return (
         <>
             <TableRow role='row'>
@@ -67,16 +81,22 @@ export default function CabinRow({ cabin }) {
                     <span>&mdash;</span>
                 )}
                 <div>
+                    <button
+                        onClick={handleDuplicate}
+                        disabled={isCreating}
+                    >
+                        <HiSquare2Stack />
+                    </button>
                     <button onClick={() => setShowForm((show) => !show)}>
-                        Edit
+                        <HiPencil />
+                    </button>
+                    <button
+                        onClick={() => deleteCabin(cabinId)}
+                        disabled={isDeleting}
+                    >
+                        <HiTrash />
                     </button>
                 </div>
-                <button
-                    onClick={() => deleteCabin(cabinId)}
-                    disabled={isDeleting}
-                >
-                    Delete
-                </button>
             </TableRow>
             {showForm && <CreateCabinForm cabinToEdit={cabin} />}
         </>
