@@ -74,7 +74,8 @@ function Header({ children }) {
     return (
         <StyledHeader
             role='row'
-            columns={columns} as='header'
+            columns={columns}
+            as='header'
         >
             {children}
         </StyledHeader>
@@ -91,8 +92,10 @@ function Row({ children }) {
         </StyledRow>
     );
 }
-function Body({ children }) {
-    const { columns } = useContext(TableContext);
+function Body({ data, render }) {
+    if (!data.length) return <Empty>No data to show at the moment</Empty>;
+
+    return <StyledBody>{data.map(render)}</StyledBody>;
 }
 
 Table.Header = Header;
