@@ -25,7 +25,7 @@ export default function CabinTable() {
     if (filterValue === 'with-discount')
         filteredCabins = cabins.filter((cabin) => cabin.discount > 0);
 
-    const sortBy = searchParams.get('sortBy') || 'startDate-asc';
+    const sortBy = searchParams.get('sortBy') || 'name-asc';
 
     const [sortField, direction] = sortBy.split('-');
     const modifier = direction === 'asc' ? 1 : -1;
