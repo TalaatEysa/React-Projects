@@ -100,7 +100,6 @@ function SignupForm() {
                 >
                     Cancel
                 </Button>
-                disabled={isLoading}
                 <Button>Create new user</Button>
             </FormRow>
         </Form>
